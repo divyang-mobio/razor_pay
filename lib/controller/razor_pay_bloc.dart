@@ -11,10 +11,9 @@ class RazorPayBloc extends Bloc<RazorPayEvent, RazorPayState> {
 
   RazorPayBloc(this.razorpay) : super(RazorPayInitial()) {
     on<CallPaymentMethod>((event, emit) {
-      print("bloc");
       var options = {
         "key": "rzp_test_4mqsa1rV46SkJv",
-        "amount": 1000 * 100,
+        "amount": 1000*100,
         "name": "Test",
         "description": "Payment for the some test",
         "timeout": "180",
@@ -28,11 +27,7 @@ class RazorPayBloc extends Bloc<RazorPayEvent, RazorPayState> {
           "wallets": ["paytm"]
         }
       };
-      try {
-        razorpay.open(options);
-      } catch (e) {
-        print(e.toString());
-      }
+      razorpay.open(options);
     });
     void handlerPaymentSuccess(PaymentSuccessResponse response) =>
         showToast("Payment success", position: ToastPosition.bottom);

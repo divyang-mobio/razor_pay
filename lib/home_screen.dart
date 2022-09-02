@@ -9,7 +9,6 @@ import 'package:multi_select_flutter/util/multi_select_list_type.dart';
 import 'package:razor_pay/controller/razor_pay_bloc.dart';
 import 'package:razor_pay/resourse/resourse.dart';
 
-/// razor pay work is only done on this page only
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -37,53 +36,62 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              MultiSelectBottomSheetField(
-                initialChildSize: 0.4,
-                listType: MultiSelectListType.CHIP,
-                searchable: true,
-                buttonText: const Text("Favorite Animals"),
-                title: const Text("Animal"),
-                items: _items,
-                onConfirm: (values) =>
-                    setState(() => _selectedAnimals2 = values),
-                chipDisplay: MultiSelectChipDisplay(
-                    onTap: (value) =>
-                        setState(() => _selectedAnimals2.remove(value))),
-              ),
-              _selectedAnimals2 == null || _selectedAnimals2.isEmpty
-                  ? Container(
-                      padding: const EdgeInsets.all(10),
-                      alignment: Alignment.centerLeft,
-                      child: const Text(
-                        "Pls Select any item",
-                        style: TextStyle(color: Colors.black54),
-                      ))
-                  : Container(),
-              const SizedBox(height: 40),
-              MultiSelectChipField(
+    return BlocListener<RazorPayBloc, RazorPayState>(
+      listener: (context, state) {
+        if (state is PaymentSuccess) {
+          print("success bloc");
+        } else if (state is PaymentFail) {
+          print("fail bloc");
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(title: Text(widget.title)),
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                MultiSelectBottomSheetField(
+                  initialChildSize: 0.4,
+                  listType: MultiSelectListType.CHIP,
+                  searchable: true,
+                  buttonText: const Text("Favorite Animals"),
+                  title: const Text("Animal"),
                   items: _items,
-                  initialValue: _selectedAnimals3,
-                  title: const Text("Animals"),
-                  headerColor: Colors.blue.withOpacity(0.5),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blue, width: 1.8)),
-                  selectedChipColor: Colors.blue.withOpacity(0.5),
-                  selectedTextStyle: TextStyle(color: Colors.blue[800]),
-                  onTap: (values) =>
-                      setState(() => _selectedAnimals3 = values)),
-              MaterialButton(
-                  color: Colors.blue,
-                  onPressed: () => BlocProvider.of<RazorPayBloc>(context)
-                      .add(CallPaymentMethod()),
-                  child: const Text("Pay me"))
-            ],
+                  onConfirm: (values) =>
+                      setState(() => _selectedAnimals2 = values),
+                  chipDisplay: MultiSelectChipDisplay(
+                      onTap: (value) =>
+                          setState(() => _selectedAnimals2.remove(value))),
+                ),
+                _selectedAnimals2 == null || _selectedAnimals2.isEmpty
+                    ? Container(
+                        padding: const EdgeInsets.all(10),
+                        alignment: Alignment.centerLeft,
+                        child: const Text(
+                          "Pls Select any item",
+                          style: TextStyle(color: Colors.black54),
+                        ))
+                    : Container(),
+                const SizedBox(height: 40),
+                MultiSelectChipField(
+                    items: _items,
+                    initialValue: _selectedAnimals3,
+                    title: const Text("Animals"),
+                    headerColor: Colors.blue.withOpacity(0.5),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blue, width: 1.8)),
+                    selectedChipColor: Colors.blue.withOpacity(0.5),
+                    selectedTextStyle: TextStyle(color: Colors.blue[800]),
+                    onTap: (values) =>
+                        setState(() => _selectedAnimals3 = values)),
+                MaterialButton(
+                    color: Colors.blue,
+                    onPressed: () => BlocProvider.of<RazorPayBloc>(context)
+                        .add(CallPaymentMethod()),
+                    child: const Text("Pay me"))
+              ],
+            ),
           ),
         ),
       ),
