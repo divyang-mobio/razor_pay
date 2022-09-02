@@ -6,7 +6,6 @@ import 'package:multi_select_flutter/chip_display/multi_select_chip_display.dart
 import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:multi_select_flutter/util/multi_select_list_type.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:razor_pay/controller/razor_pay_bloc.dart';
 import 'package:razor_pay/resourse/resourse.dart';
 
@@ -21,9 +20,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // final _items = _animals
-  //     .map((animal) => MultiSelectItem<Animal>(animal, animal.name))
-  //     .toList();
+  List _selectedAnimals2 = [];
+  List _selectedAnimals3 = [];
+  final _items = _animals
+      .map((animal) => MultiSelectItem<Animal>(animal, animal.name))
+      .toList();
 
   stopTakingSS() async =>
       await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
@@ -43,40 +44,40 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              // MultiSelectBottomSheetField(
-              //   initialChildSize: 0.4,
-              //   listType: MultiSelectListType.CHIP,
-              //   searchable: true,
-              //   buttonText: const Text("Favorite Animals"),
-              //   title: const Text("Animal"),
-              //   items: _items,
-              //   onConfirm: (values) =>
-              //       setState(() => _selectedAnimals2 = values),
-              //   chipDisplay: MultiSelectChipDisplay(
-              //       onTap: (value) =>
-              //           setState(() => _selectedAnimals2.remove(value))),
-              // ),
-              // _selectedAnimals2 == null || _selectedAnimals2.isEmpty
-              //     ? Container(
-              //         padding: const EdgeInsets.all(10),
-              //         alignment: Alignment.centerLeft,
-              //         child: const Text(
-              //           "Pls Select any item",
-              //           style: TextStyle(color: Colors.black54),
-              //         ))
-              //     : Container(),
-              // const SizedBox(height: 40),
-              // MultiSelectChipField(
-              //     items: _items,
-              //     initialValue: _selectedAnimals3,
-              //     title: const Text("Animals"),
-              //     headerColor: Colors.blue.withOpacity(0.5),
-              //     decoration: BoxDecoration(
-              //         border: Border.all(color: Colors.blue, width: 1.8)),
-              //     selectedChipColor: Colors.blue.withOpacity(0.5),
-              //     selectedTextStyle: TextStyle(color: Colors.blue[800]),
-              //     onTap: (values) =>
-              //         setState(() => _selectedAnimals3 = values)),
+              MultiSelectBottomSheetField(
+                initialChildSize: 0.4,
+                listType: MultiSelectListType.CHIP,
+                searchable: true,
+                buttonText: const Text("Favorite Animals"),
+                title: const Text("Animal"),
+                items: _items,
+                onConfirm: (values) =>
+                    setState(() => _selectedAnimals2 = values),
+                chipDisplay: MultiSelectChipDisplay(
+                    onTap: (value) =>
+                        setState(() => _selectedAnimals2.remove(value))),
+              ),
+              _selectedAnimals2 == null || _selectedAnimals2.isEmpty
+                  ? Container(
+                      padding: const EdgeInsets.all(10),
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        "Pls Select any item",
+                        style: TextStyle(color: Colors.black54),
+                      ))
+                  : Container(),
+              const SizedBox(height: 40),
+              MultiSelectChipField(
+                  items: _items,
+                  initialValue: _selectedAnimals3,
+                  title: const Text("Animals"),
+                  headerColor: Colors.blue.withOpacity(0.5),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.blue, width: 1.8)),
+                  selectedChipColor: Colors.blue.withOpacity(0.5),
+                  selectedTextStyle: TextStyle(color: Colors.blue[800]),
+                  onTap: (values) =>
+                      setState(() => _selectedAnimals3 = values)),
               MaterialButton(
                   color: Colors.blue,
                   onPressed: () => BlocProvider.of<RazorPayBloc>(context)

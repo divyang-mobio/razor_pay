@@ -7,9 +7,9 @@ part 'razor_pay_event.dart';
 part 'razor_pay_state.dart';
 
 class RazorPayBloc extends Bloc<RazorPayEvent, RazorPayState> {
-  final razorpay = Razorpay();
+  Razorpay razorpay;
 
-  RazorPayBloc() : super(RazorPayInitial()) {
+  RazorPayBloc(this.razorpay) : super(RazorPayInitial()) {
     on<CallPaymentMethod>((event, emit) {
       print("bloc");
       var options = {
